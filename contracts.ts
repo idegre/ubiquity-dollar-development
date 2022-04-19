@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
 import namedAccounts from "./fixtures/named-accounts.json";
 import FullDeployment from "./fixtures/ubiquity-dollar-deployment.json";
@@ -197,7 +198,13 @@ export async function connectedContracts(): Promise<{
     return Promise.reject("Metamask is not installed");
   }
 
-  const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+  const walletconnectProvider = new WalletConnectProvider({
+    infuraId: process.env.INFURA_API_KEY,
+  });
+
+  await walletconnectProvider.enable();
+  // const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+  const provider = new ethers.providers.Web3Provider(walletconnectProvider);
 
   const manager = contracts.manager(ADDRESS.MANAGER, provider);
   const addr = await contractsAddresses(manager);
