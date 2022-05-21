@@ -20,3 +20,4 @@ import "./revoke";
 import "./simulateMigrate";
 import "./priceReset";
 import "./deployYieldProxyLocally";
+import "./distributeGovernance"
